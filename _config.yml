@@ -18,9 +18,9 @@ timezone:
 # 站点网址
 # 如果网址是次级目录，比如：http://example.com/blog，
 # 那么就要设置`url`为`http://example.com/blog`，并且`root`要设置为`/blog/`
-url: http://www.mocwe.com
+url: https://ricklyh.github.io/hexoblog.github.io
 # 站点根目录
-root: /
+root: /hexoblog.github.io/
 # 文章的永久网址链接，默认是:year/:month/:day/:title/，。
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -114,5 +114,5 @@ theme: next
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: ssh://git@github.com:ricklyh/hexoblog.github.io.git
+  repo: https://github.com/ricklyh/hexoblog.github.io.git
   branch: master
