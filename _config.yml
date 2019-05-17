@@ -18,9 +18,9 @@ timezone:
 # 站点网址
 # 如果网址是次级目录，比如：http://example.com/blog，
 # 那么就要设置`url`为`http://example.com/blog`，并且`root`要设置为`/blog/`
-url: https://ricklyh.github.io/hexoblog.github.io
-# 站点根目录
-root: /hexoblog.github.io/
+url: http://mocwe.com/
+# 站点根目录,如果设置域名了。根目录为/
+root: /
 # 文章的永久网址链接，默认是:year/:month/:day/:title/，。
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -50,7 +50,7 @@ filename_case: 0
 # 是否渲染_drafts目录下的文章，默认为false
 render_drafts: false
 # 是否启用Asset Folder，默认为false
-post_asset_folder: false
+post_asset_folder: true
 relative_link: false
 # 是否显示未来日期文章，默认为true
 future: true
@@ -114,5 +114,5 @@ theme: next
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com/ricklyh/hexoblog.github.io.git
+  repo: https://github.com/ricklyh/webblog.github.io.git
   branch: master

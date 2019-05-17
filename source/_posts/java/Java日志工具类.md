@@ -1,13 +1,11 @@
 ---
 title: Java日志工具类
-date: 2019-04-12 19:30:03
-tags:
-      - java
-categories:
-      - java
+date: 2018-02-2 19:30:03
+tags: [java]
+categories: java
 ---
 
-# Java日志工具类
+## Java日志工具类
 
 比较常用的日志工具类有Log4j、SLF4j、Commons-logging(简称jcl)、logback、log4j2(log4j升级版)、jdk logging。大致可分为两类：
 

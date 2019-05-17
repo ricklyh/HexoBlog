@@ -1,10 +1,8 @@
 ---
 title: java线程同步
-date: 2019-04-12 22:12:04
-tags:
-      - java
-categories:
-      - java
+date: 2018-03-22 22:12:04
+tags: [java]
+categories: java
 ---
 
 

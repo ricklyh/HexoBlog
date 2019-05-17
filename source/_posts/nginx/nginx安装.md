@@ -1,10 +1,8 @@
 ---
 title: nginx安装
-date: 2019-04-12 22:12:04
-tags:
-      - nginx
-categories:
-      - nginx
+date: 2018-06-11 20:12:04
+tags: [nginx]
+categories: nginx
 ---
 
 ## 官网下载 nginx

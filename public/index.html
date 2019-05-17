@@ -98,7 +98,7 @@
 
   <meta property="og:type" content="website">
 <meta property="og:title" content="每天进步一小点">
-<meta property="og:url" content="http://www.mocwe.com/index.html">
+<meta property="og:url" content="http://mocwe.com/index.html">
 <meta property="og:site_name" content="每天进步一小点">
 <meta property="og:locale" content="zh-CN">
 <meta name="twitter:card" content="summary">
@@ -110,7 +110,7 @@
 
   
   
-  <link rel="canonical" href="http://www.mocwe.com/">
+  <link rel="canonical" href="http://mocwe.com/">
 
 
 
@@ -341,7 +341,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.mocwe.com/2019/04/12/maven-maven整理/">
+    <link itemprop="mainEntityOfPage" href="http://mocwe.com/2019/05/12/spring-Spring-IOC级联容器原理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rick Liu">
@@ -361,7 +361,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2019/04/12/maven-maven整理/" class="post-title-link" itemprop="url">maven整理</a>
+                <a href="/2019/05/12/spring-Spring-IOC级联容器原理/" class="post-title-link" itemprop="url">Spring IOC级联容器原理</a>
               
             
           </h1>
@@ -386,7 +386,7 @@
                 
               
 
-              <time title="创建时间：2019-04-12 22:12:04 / 修改时间：22:20:15" itemprop="dateCreated datePublished" datetime="2019-04-12T22:12:04+08:00">2019-04-12</time>
+              <time title="创建时间：2019-05-12 20:12:00 / 修改时间：21:20:08" itemprop="dateCreated datePublished" datetime="2019-05-12T20:12:00+08:00">2019-05-12</time>
             
 
             
@@ -408,7 +408,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/maven/" itemprop="url" rel="index"><span itemprop="name">maven</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/spring/" itemprop="url" rel="index"><span itemprop="name">spring</span></a></span>
 
                 
                 
@@ -444,19 +444,32 @@
 
       
         
-          <p>Maven命令整理<br>
-          <!--noindex-->
           
-            <div class="post-button text-center">
-              <a class="btn" href="/2019/04/12/maven-maven整理/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
+            <h2 id="spring-mvc框架中的两级容器"><a href="#spring-mvc框架中的两级容器" class="headerlink" title="spring mvc框架中的两级容器"></a>spring mvc框架中的两级容器</h2><ul>
+<li>spring mvc在开发中经常使用，一般我们在web.xml配置时候，都需要配置ContextLoaderListener和一个DispatcherServlet，那么这2个都起到什么所用呢？</li>
+<li>其实就是配置了2个spring ioc容器，并且DispatcherServlet创建IOC容器的父容器就是ContextLoaderListener创建的IOC容器</li>
+<li><p>一般配置如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">配置 ContextLoaderListener </span><br><span class="line"></span><br><span class="line">   &lt;listener&gt;</span><br><span class="line">       &lt;listener-class&gt;org.springframework.web.context.ContextLoaderListener&lt;/listener-class&gt;</span><br><span class="line">   &lt;/listener&gt;</span><br><span class="line">   </span><br><span class="line">   &lt;context-param&gt;</span><br><span class="line">       &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;</span><br><span class="line">       &lt;param-value&gt;WEB-INF/applicationContext.xml&lt;/param-value&gt;</span><br><span class="line">   &lt;/context-param&gt;</span><br><span class="line">   </span><br><span class="line">配置 DispatcherServlet</span><br><span class="line"></span><br><span class="line">   &lt;servlet&gt;</span><br><span class="line">       &lt;servlet-name&gt;springmvc&lt;/servlet-name&gt;</span><br><span class="line">       &lt;servlet-class&gt;org.springframework.web.servlet.DispatcherServlet&lt;/servlet-class&gt;</span><br><span class="line">       &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;</span><br><span class="line">   &lt;/servlet&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>ContextLoaderListener 会创建一个由应用程序上下文 XMLWebApplicationContext 来管理的 IOC 容器，IOC 里面的 bean 是通过 <context-param> 配置的 contextConfigLocation 参数对应的 WEB-INF/applicationContext.xml 来注入的</context-param></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;servlet&gt;</span><br><span class="line">  &lt;servlet-name&gt;springmvc&lt;/servlet-name&gt;</span><br><span class="line">  &lt;servlet-class&gt;org.springframework.web.servlet.DispatcherServlet&lt;/servlet-class&gt;</span><br><span class="line">  &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;</span><br><span class="line">  &lt;init-param&gt;  </span><br><span class="line">      &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;  </span><br><span class="line">      &lt;param-value&gt;classpath:springmvc-servlet.xml&lt;/param-value&gt;  </span><br><span class="line">  &lt;/init-param&gt;</span><br><span class="line">&lt;/servlet&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>以上配置完成后就会形成两级级联IOC容器了</p>
+<ul>
+<li>spring sub context ———&gt; spring root context  </li>
+</ul>
+</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>1 子容器无法访问子容器的bean，因为相互隔离</li>
+<li>2 子容器可以访问父容器的bean,因为子容器也是通过父容器创建的</li>
+<li>3 父容器无法访问子容器中的bean,不支持自顶向下访问</li>
+</ul>
+
           
-          <!--/noindex-->
         
       
-    </p></div>
+    </div>
 
     
 
@@ -508,7 +521,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.mocwe.com/2019/04/12/nginx-nginx安装/">
+    <link itemprop="mainEntityOfPage" href="http://mocwe.com/2019/05/03/developTools-Mac版本破解starUML/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rick Liu">
@@ -528,7 +541,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2019/04/12/nginx-nginx安装/" class="post-title-link" itemprop="url">nginx安装</a>
+                <a href="/2019/05/03/developTools-Mac版本破解starUML/" class="post-title-link" itemprop="url">Mac版本破解starUML</a>
               
             
           </h1>
@@ -553,7 +566,7 @@
                 
               
 
-              <time title="创建时间：2019-04-12 22:12:04" itemprop="dateCreated datePublished" datetime="2019-04-12T22:12:04+08:00">2019-04-12</time>
+              <time title="创建时间：2019-05-03 23:22:04" itemprop="dateCreated datePublished" datetime="2019-05-03T23:22:04+08:00">2019-05-03</time>
             
 
             
@@ -570,7 +583,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-04-13 21:51:23" itemprop="dateModified" datetime="2019-04-13T21:51:23+08:00">2019-04-13</time>
+                <time title="修改时间：2019-05-16 20:50:12" itemprop="dateModified" datetime="2019-05-16T20:50:12+08:00">2019-05-16</time>
               
             
           </span>
@@ -587,7 +600,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/nginx/" itemprop="url" rel="index"><span itemprop="name">nginx</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/developTools/" itemprop="url" rel="index"><span itemprop="name">developTools</span></a></span>
 
                 
                 
@@ -624,35 +637,672 @@
       
         
           
-            <h2 id="官网下载-nginx"><a href="#官网下载-nginx" class="headerlink" title="官网下载 nginx"></a>官网下载 nginx</h2><ul>
-<li>1 下载 Nginx，下载地址：<a href="http://nginx.org/download/nginx-1.6.2.tar.gz,并上传到服务器，或直接使用wget" target="_blank" rel="noopener">http://nginx.org/download/nginx-1.6.2.tar.gz,并上传到服务器，或直接使用wget</a> </li>
+            <h2 id="下载并安装"><a href="#下载并安装" class="headerlink" title="下载并安装"></a>下载并安装</h2><ul>
+<li>1 从官网<a href="http://staruml.io/下载" target="_blank" rel="noopener">http://staruml.io/下载</a> StarUML，因为是dmg,可以直接安装</li>
+<li>2 安装完成后，需要先安装asar<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install asar -g</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
-<h2 id="安装-nginx"><a href="#安装-nginx" class="headerlink" title="安装 nginx"></a>安装 nginx</h2><ul>
-<li>1 解压安装包  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar zxvf nginx-1.6.2.tar.gz</span><br></pre></td></tr></table></figure>
+<h2 id="破解"><a href="#破解" class="headerlink" title="破解"></a>破解</h2><ul>
+<li>1 安装成功默认装在/Applications/StarUML.app/Contents/Resources，进入该目录</li>
+<li><p>2 解压文件 asar extract app.asar app</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">asar extract app.asar app</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3 修改js文件app/src/engine/license-manager.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim app/src/engine/license-manager.js ,可通过find命令查找，输入/checkLicenseValidity</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>4 找到checkLicenseValidity ()方法，修改成如下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">checkLicenseValidity () &#123;</span><br><span class="line">    this.validate().then(() =&gt; &#123;</span><br><span class="line">      setStatus(this, true)</span><br><span class="line">    &#125;, () =&gt; &#123;</span><br><span class="line">      setStatus(this, true)//false 改为true</span><br><span class="line">      // UnregisteredDialog.showDialog()</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>5 重新打包app文件夹asar pack app app.asar</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">asar pack app app.asar</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>破解成功，重启StarUML即可开启画图的乐趣</p>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://mocwe.com/2019/05/03/developTools-starUML入门使用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rick Liu">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar-user.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="每天进步一小点">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/05/03/developTools-starUML入门使用/" class="post-title-link" itemprop="url">starUML入门使用</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-03 23:22:04" itemprop="dateCreated datePublished" datetime="2019-05-03T23:22:04+08:00">2019-05-03</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-17 10:03:31" itemprop="dateModified" datetime="2019-05-17T10:03:31+08:00">2019-05-17</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/developTools/" itemprop="url" rel="index"><span itemprop="name">developTools</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://mocwe.com/2019/04/03/zookeeper-Leader选举原理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rick Liu">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar-user.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="每天进步一小点">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/04/03/zookeeper-Leader选举原理/" class="post-title-link" itemprop="url">Leader选举原理</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-03 10:22:04" itemprop="dateCreated datePublished" datetime="2019-04-03T10:22:04+08:00">2019-04-03</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-11 01:06:57" itemprop="dateModified" datetime="2019-05-11T01:06:57+08:00">2019-05-11</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/zookeeper/" itemprop="url" rel="index"><span itemprop="name">zookeeper</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><ul>
+<li>Leader崩溃或者Leader失去大多数的Follower，这时候zk进入恢复模式，恢复模式需要重新选举出一个新的Leader，让所有的Server都恢复到一个正确的状态。<br>Zookeeper中Leader的选举采用了三种算法：<ul>
+<li>LeaderElection</li>
+<li>FastLeaderElection</li>
+<li>AuthFastLeaderElection</li>
+</ul>
+</li>
+<li><p>并且在配置文件中是可配置的，对应的配置项为electionAlg</p>
+</li>
+<li><p>成为Leader的必要条件： Leader要具有最高的zxid；当集群的规模是n时，集群中大多数的机器（至少n/2+1）得到响应并follow选出的Leader</p>
+</li>
+<li><p>心跳机制：Leader与Follower利用PING来感知对方的是否存活，当Leader无法相应PING时，将重新发起Leader选举</p>
+</li>
+<li><p>zxid：zookeeper transaction id, 每个改变Zookeeper状态的操作都会形成一个对应的zxid，并记录到transaction log中。 这个值越大，表示更新越新</p>
+</li>
+<li><p>electionEpoch/logicalclock：逻辑时钟，用来判断是否为同一次选举。每调用一次选举函数，logicalclock自增1，并且在选举过程中如果遇到election比当前logicalclock大的值，就更新本地logicalclock的值</p>
+</li>
+<li><p>peerEpoch: 表示节点的Epoch</p>
+<h2 id="zookeeper-server状态说明"><a href="#zookeeper-server状态说明" class="headerlink" title="zookeeper server状态说明"></a>zookeeper server状态说明</h2></li>
+<li>LOOKING:寻找Leader</li>
+<li>LEADING：Leader状态，对应的节点为Leader。</li>
+<li>FOLLOWING：Follower状态，对应的节点为Follower。</li>
+<li>OBSERVING：Observer状态，对应节点为Observer，该节点不参与Leader选举</li>
+</ul>
+<h2 id="LeaderElection选举算法"><a href="#LeaderElection选举算法" class="headerlink" title="LeaderElection选举算法"></a>LeaderElection选举算法</h2><ul>
+<li><p>LeaderElection是Fast Paxos最简单的一种实现，每个Server启动以后都询问其它的Server它要投票给谁，收到所有Server回复以后，就计算出zxid最大的哪个Server，并将这个Server相关信息设置成下一次要投票的Server。<br>该算法于Zookeeper 3.4以后的版本废弃</p>
+</li>
+<li><h4 id="选举流程："><a href="#选举流程：" class="headerlink" title="选举流程："></a>选举流程：</h4><ul>
+<li>1 选举线程首先向所有的server发起一次询问（包括自己）</li>
+<li>2 选举线程收到回复，验证是否是自己发起询问（验证zxid是否一致），然后获取对方的server Id(MyId),并存储到当前询问对象列表中，最后获取对方提议的leader相关信息（id,zxid）,并将这些信息存储到当次选举的投票记录表中</li>
+<li>3 收到所有的server回复后，就计算出zxid最大的那个server,并将这个server的相关信息设置成下一次要投票的server</li>
+<li>4 选举线程将当前zxid最大的server设置为当前server要推举的leader，如果此时（zxid最大的server）获取多数server投票,就设置当前推荐的leader为获胜的server<br>  将根据获胜的server相关信息设置自己的状态，否则继续这个过程，直到leader被选举出来</li>
+</ul>
+</li>
+<li><h4 id="流程图展示"><a href="#流程图展示" class="headerlink" title="流程图展示"></a>流程图展示</h4><p><img src="/2019/04/03/zookeeper-Leader选举原理/LeaderElectoin.png" alt="LeaderElectoin" title="Optional title"></p>
+</li>
+<li><p>通过流程分析我们可以得出：要使Leader获得多数Server的支持，则Server总数必须是奇数2n+1，且存活的Server的数目不得少于n+1</p>
+</li>
+<li><h4 id="Leader选举异常情况"><a href="#Leader选举异常情况" class="headerlink" title="Leader选举异常情况"></a>Leader选举异常情况</h4><ul>
+<li>1 选举过程中，Server的退出，只要保证n/2+1个Server存活就没有任何问题，如果少于n/2+1个Server 存活就没办法选出Leader</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://mocwe.com/2019/04/03/interview-面试问题总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rick Liu">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar-user.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="每天进步一小点">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/04/03/interview-面试问题总结/" class="post-title-link" itemprop="url">面试问题总结</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-03 10:22:04" itemprop="dateCreated datePublished" datetime="2019-04-03T10:22:04+08:00">2019-04-03</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-10 22:50:31" itemprop="dateModified" datetime="2019-05-10T22:50:31+08:00">2019-05-10</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/interview/" itemprop="url" rel="index"><span itemprop="name">interview</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><ul>
+<li>相信大家在面试过程中，都会经历面试官一些问题答复，或多或少会有一些答不出来或者答的不好。其实面试过程就好比一次技术的交流，或者说是一次自我的技术检查，其实面试管对面试者的技术面试是看我们在工作中解决问题的思路与能，所以面试者需要认真对待每一次面试，我们都需要在面试中成长。所以我们需要做到如下几点：<ul>
+<li>面试过程中遇到不会的问题，需要铭刻记住，以便回来之后对技术的补充和复习</li>
+<li>尽量对不会的问题做到表里如一，由浅到深</li>
+<li>多动手实战，学会画流程图或者思维导图来加深自己对技能的掌握</li>
+<li>勤做技术笔记，形成一种良好的习惯，阅读官方文档或者源码分析</li>
+</ul>
+</li>
+</ul>
+<h2 id="面试问题"><a href="#面试问题" class="headerlink" title="面试问题"></a>面试问题</h2><ul>
+<li>以下是笔者在面试中遇到的一些问题，下面将以分类形式具体说明<h3 id="redis"><a href="#redis" class="headerlink" title="redis"></a>redis</h3></li>
+<li><p>我有个业务场景，需要往redis list 数据结构插入上百万数据量或者更多，如何提高插入速度和减轻网络磁盘IO消耗？</p>
+<ul>
+<li>笔者当时并未使用过 redis list，所以当时只想到了，可使用缓存批量插入</li>
+<li>经过查看redis提供以下两种方式：<ul>
+<li>利用redis pipline 管道技术</li>
+<li>把需要插入数据分块批量插入</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>实战</p>
+<ul>
+<li><p>举个例子需要添加1000万数据用于图标展示分析，现在需要把1000万的数字插入redis数据库</p>
+<ul>
+<li><p>普通的插入redis set集合方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">r = redis.Redis(host=&quot;127.0.0.1&quot;, port=6379)</span><br><span class="line">for i in range(1, 3 * 10 ** 8):</span><br><span class="line">    r.sadd(&apos;xxxxx&apos;, i)</span><br><span class="line"> </span><br><span class="line">数据量少还行，一次插入这么多数据就会出现问题</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>利用redis pipline 管道技术</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">r = redis.Redis(host=&quot;127.0.0.1&quot;, port=6379)</span><br><span class="line">pipeline = r.pipeline()</span><br><span class="line">for i in range(1, 3 * 10 ** 8):</span><br><span class="line">    pipeline.sadd(&apos;xxxxx&apos;, i)</span><br><span class="line">pipeline.execute()</span><br><span class="line"></span><br><span class="line">这种操作相当于写了一堆的命令一次性执行完，一旦某个命令出问题那么这次插入数据就会失败。这种方式的好处。节省了本机与redis服务器链接的 IO 延时，一般来说节省了很多时间</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>把需要插入的数据分块批量插入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">for i in range(30):</span><br><span class="line">   ls = list(range(i*1000000,(i+1)*1000000))</span><br><span class="line">   r.sadd(&apos;xxxxx&apos;, *ls)</span><br><span class="line"></span><br><span class="line">这样的方式是一次插入多个数据，不会出现使用pipline如果某个命令出问题就全部插入失败的现象，速度非常快，比使用pipline 的方式快了几倍</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="MQ消息队列"><a href="#MQ消息队列" class="headerlink" title="MQ消息队列"></a>MQ消息队列</h3><ul>
+<li><p>mq消息队列如何实现幂等性的？</p>
+<ul>
+<li>在消费者业务处理或者业务设计中，如果消息已经被消费，可更改实体状态（根据msgId区分），如果更新过，则不进行重复处理业务</li>
+</ul>
+</li>
+<li><p>mq如何保证有序性？</p>
+<ul>
+<li>场景分析：比如异步执行业务，发送2条消息，且处理业务是，先增加，修改，删除。但在并发情况下（消费者不止一个）那么如何保证业务的执行顺序呢？</li>
+<li>解决方案：<ul>
+<li>如果是同步肯定不存在，异步且高并发，可针对业务执行顺序，分别使用不同的消息队列。在业务逻辑处理时，可对顺序进行控制</li>
+<li>可在消息体中加入版本号 &amp; 状态机 &amp; msgid &amp; parent_msgid，通过 parent_msgid 判断消息的顺序（需要全局存储，记录消息的执行状态）</li>
+</ul>
+</li>
+<li>缺点：因为要求业务顺序，我们在业务处理中，需要额外的io或者内存资源来对顺序业务的处理，导致一部分性能降低，这也是MQ不提高顺序性的理由之一</li>
+<li>总结：有没有一种可能，我们在设计业务的时候是否可以避免有序执行业务，从而提高程序执行性能</li>
+</ul>
+</li>
+</ul>
+<h3 id="zookeeper"><a href="#zookeeper" class="headerlink" title="zookeeper"></a>zookeeper</h3><ul>
+<li>zookeeper Leader选举原理？</li>
+</ul>
+<h3 id="spring-mvc"><a href="#spring-mvc" class="headerlink" title="spring mvc"></a>spring mvc</h3><ul>
+<li><p>过滤器与拦截器的区别</p>
+<ul>
+<li><h4 id="过滤器："><a href="#过滤器：" class="headerlink" title="过滤器："></a>过滤器：</h4></li>
+<li><p>过滤器是javaEE标准，采用函数回调的方式进行。请求进入容器之后，还未进入servlet之前进行预处理，并且在请求结束返回给前端这之间进行处理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">//实现过滤功能</span><br><span class="line">public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException &#123;</span><br><span class="line">    System.out.println(&quot;before...&quot;);</span><br><span class="line">    chain.doFilter(request, response);</span><br><span class="line">    System.out.println(&quot;after...&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//用于完成Filter的初始化</span><br><span class="line">void init(FilterConfig config):</span><br><span class="line"></span><br><span class="line">//用于Filter销毁前，完成某些资源的回收</span><br><span class="line">void destory():</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>工作原理，在web.xml配置拦截客户请求，此时你可以对请求或者响应做统一设置编码，一些逻辑判断，如用户是否已登录，是否有权限访问页面等，Filter是随web容器启动的，只会初始化一次。</p>
+</li>
+<li><h4 id="拦截器："><a href="#拦截器：" class="headerlink" title="拦截器："></a>拦截器：</h4></li>
+<li>spring mvc 拦截器是基于java反射机制实现，会动态拦截指定的service方法，可对请求的共性抽取出来独立，可以共享一个行为，一旦行为发生改变，不必修改很多类，只需要更改这个行为就可以<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public interface HandlerInterceptor &#123;</span><br><span class="line">    //该方案将在请求处理前进行调用，spring mvc的interceptor是链式调用的，可以同时存在多个Interceptor，每个Interceptor调用会依据它的声明顺序依次执行</span><br><span class="line">    boolean preHandle(HttpServletRequest var1, HttpServletResponse var2, Object var3) throws Exception;</span><br><span class="line"></span><br><span class="line">    //当preHandle返回true此方案才会被调用，该方法就是在当前请求进行处理之后，也就是controller方法调用之后执行，会在视图返回渲染之前调用，也就是说这个方法对controller处理之后的ModelAndView对象进行操作</span><br><span class="line">    void postHandle(HttpServletRequest var1, HttpServletResponse var2, Object var3, ModelAndView var4) throws Exception;</span><br><span class="line"></span><br><span class="line">    //该方法也是需要当前对应的preHandle方法返回true才执行，此方法将在整个请求结束之后，也就是在DispatcherServlet渲染对应的视图之后执行。该方法主要作用是用于进行资源清理工作</span><br><span class="line">    void afterCompletion(HttpServletRequest var1, HttpServletResponse var2, Object var3, Exception var4) throws Exception;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
 </li>
 </ul>
 <ul>
-<li><p>2 进入解压目录</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd nginx-1.6.2</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>3 编译安装</p>
-   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">命令：</span><br><span class="line">     ./configure --prefix=/usr/local/nginx</span><br><span class="line">      make &amp;&amp; make install</span><br><span class="line">错误：./configure: error: the HTTP rewrite module requires the PCRE library.如果出现以上错误</span><br><span class="line">      解决如下：</span><br><span class="line">              yum -y install pcre-devel openssl openssl-devel</span><br><span class="line">              然后重新执行上一步命令</span><br></pre></td></tr></table></figure>
+<li>总结<ul>
+<li>Filter只在Servlet前后起作用且无法使用spring容器资源，而拦截器可以深入到方法前后，异常抛出前后等</li>
+<li>拦截器是一个Spring的组件，归Spring管理，配置在Spring文件中，因此能使用Spring里的任何资源、对象，例如 Service对象、数据源、事务管理等，通过IoC注入到拦截器即可</li>
+</ul>
 </li>
 </ul>
-<h2 id="安装完成"><a href="#安装完成" class="headerlink" title="安装完成"></a>安装完成</h2><ul>
-<li><p>1 查看版本</p>
-   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/nginx/sbin/nginx -v</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>2 启动Nginx</p>
-   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local//nginx/sbin/nginx</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>3 Nginx其他命令</p>
-<pre><code>/usr/local/nginx/sbin/nginx -s reload            # 重新载入配置文件
-/usr/local/nginx/sbin/nginx -s reopen            # 重启 Nginx
-/usr/local/nginx/sbin/nginx -s stop              # 停止 Nginx
-</code></pre><h2 id="访问Nginx"><a href="#访问Nginx" class="headerlink" title="访问Nginx"></a>访问Nginx</h2></li>
-<li><p>1 阿里云服务器默认80端口关闭，需要在控制台管理界面，左侧菜单 安全组–&gt;配置规则，添加80/80端口。即可访问</p>
-</li>
+<h3 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h3><ul>
+<li>索引的使用</li>
 </ul>
 
           
@@ -710,7 +1360,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.mocwe.com/2019/04/12/nginx-nginx整理/">
+    <link itemprop="mainEntityOfPage" href="http://mocwe.com/2019/04/03/english-english入门基础/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rick Liu">
@@ -730,7 +1380,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2019/04/12/nginx-nginx整理/" class="post-title-link" itemprop="url">nginx整理</a>
+                <a href="/2019/04/03/english-english入门基础/" class="post-title-link" itemprop="url">english入门基础</a>
               
             
           </h1>
@@ -755,7 +1405,7 @@
                 
               
 
-              <time title="创建时间：2019-04-12 22:12:04" itemprop="dateCreated datePublished" datetime="2019-04-12T22:12:04+08:00">2019-04-12</time>
+              <time title="创建时间：2019-04-03 10:22:04" itemprop="dateCreated datePublished" datetime="2019-04-03T10:22:04+08:00">2019-04-03</time>
             
 
             
@@ -772,7 +1422,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-04-13 01:32:37" itemprop="dateModified" datetime="2019-04-13T01:32:37+08:00">2019-04-13</time>
+                <time title="修改时间：2019-05-15 16:42:31" itemprop="dateModified" datetime="2019-05-15T16:42:31+08:00">2019-05-15</time>
               
             
           </span>
@@ -789,7 +1439,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/nginx/" itemprop="url" rel="index"><span itemprop="name">nginx</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/english/" itemprop="url" rel="index"><span itemprop="name">english</span></a></span>
 
                 
                 
@@ -825,28 +1475,52 @@
 
       
         
-          <h2 id="内置预定义变量"><a href="#内置预定义变量" class="headerlink" title="内置预定义变量"></a>内置预定义变量</h2><ul>
-<li><code>$args</code>：这个变量等于GET请求中的参数。例如foo=123&amp;bar=456，这个变量只能被修改</li>
-<li><code>$host</code>：请求中的主机头(HOST)字段，如果请求中的主机头不可用或者空，则为处理请求的server名称(处理请求的server的server_name指令的值)。值为小写，不包含端口</li>
-<li><code>$remote_addr</code>：客户端的IP地址</li>
-<li><code>$remote_port</code>：客户端的端口</li>
-<li><code>$request_uri</code>：这个变量等于包含一些客户端请求参数的原始URI，它无法修改，请查看$uri更改或重写URI</li>
-<li><code>$scheme</code>：所用的协议，比如http或者是https，比如<code>rewrite ^(.+)$ $scheme://example.com$1 redirect;</code></li>
-<li><code>$server_addr</code>：服务器地址，在完成一次系统调用后可以确定这个值，如果要绕开系统调用，则必须在listen中指定地址并且使用bind参数</li>
-<li><code>$server_name</code>：服务器名称</li>
-<li><code>$server_port</code>：请求到达服务器的端口号</li>
-<li><code>$server_protocol</code>：请求使用的协议，通常是HTTP/1.0或HTTP/1.1</li>
-<li><code>$uri</code>：请求中的当前URI(不带请求参数，参数位于<code>$args</code>)，不同于浏览器传递的<code>$request_uri</code>的值，它可以通过内部重定向，或者使用index指令进行修改。不包含协议和主机名，例如<code>/foo/bar.html</code></li>
+          
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><ul>
+<li>Leader崩溃或者Leader失去大多数的Follower，这时候zk进入恢复模式，恢复模式需要重新选举出一个新的Leader，让所有的Server都恢复到一个正确的状态。<br>Zookeeper中Leader的选举采用了三种算法：<ul>
+<li>LeaderElection</li>
+<li>FastLeaderElection</li>
+<li>AuthFastLeaderElection</li>
 </ul>
-          <!--noindex-->
+</li>
+<li><p>并且在配置文件中是可配置的，对应的配置项为electionAlg</p>
+</li>
+<li><p>成为Leader的必要条件： Leader要具有最高的zxid；当集群的规模是n时，集群中大多数的机器（至少n/2+1）得到响应并follow选出的Leader</p>
+</li>
+<li><p>心跳机制：Leader与Follower利用PING来感知对方的是否存活，当Leader无法相应PING时，将重新发起Leader选举</p>
+</li>
+<li><p>zxid：zookeeper transaction id, 每个改变Zookeeper状态的操作都会形成一个对应的zxid，并记录到transaction log中。 这个值越大，表示更新越新</p>
+</li>
+<li><p>electionEpoch/logicalclock：逻辑时钟，用来判断是否为同一次选举。每调用一次选举函数，logicalclock自增1，并且在选举过程中如果遇到election比当前logicalclock大的值，就更新本地logicalclock的值</p>
+</li>
+<li><p>peerEpoch: 表示节点的Epoch</p>
+<h2 id="zookeeper-server状态说明"><a href="#zookeeper-server状态说明" class="headerlink" title="zookeeper server状态说明"></a>zookeeper server状态说明</h2></li>
+<li>LOOKING:寻找Leader</li>
+<li>LEADING：Leader状态，对应的节点为Leader。</li>
+<li>FOLLOWING：Follower状态，对应的节点为Follower。</li>
+<li>OBSERVING：Observer状态，对应节点为Observer，该节点不参与Leader选举</li>
+</ul>
+<h2 id="LeaderElection选举算法"><a href="#LeaderElection选举算法" class="headerlink" title="LeaderElection选举算法"></a>LeaderElection选举算法</h2><ul>
+<li><p>LeaderElection是Fast Paxos最简单的一种实现，每个Server启动以后都询问其它的Server它要投票给谁，收到所有Server回复以后，就计算出zxid最大的哪个Server，并将这个Server相关信息设置成下一次要投票的Server。<br>该算法于Zookeeper 3.4以后的版本废弃</p>
+</li>
+<li><h4 id="选举流程："><a href="#选举流程：" class="headerlink" title="选举流程："></a>选举流程：</h4><ul>
+<li>1 选举线程首先向所有的server发起一次询问（包括自己）</li>
+<li>2 选举线程收到回复，验证是否是自己发起询问（验证zxid是否一致），然后获取对方的server Id(MyId),并存储到当前询问对象列表中，最后获取对方提议的leader相关信息（id,zxid）,并将这些信息存储到当次选举的投票记录表中</li>
+<li>3 收到所有的server回复后，就计算出zxid最大的那个server,并将这个server的相关信息设置成下一次要投票的server</li>
+<li>4 选举线程将当前zxid最大的server设置为当前server要推举的leader，如果此时（zxid最大的server）获取多数server投票,就设置当前推荐的leader为获胜的server<br>  将根据获胜的server相关信息设置自己的状态，否则继续这个过程，直到leader被选举出来</li>
+</ul>
+</li>
+<li><h4 id="流程图展示"><a href="#流程图展示" class="headerlink" title="流程图展示"></a>流程图展示</h4><p><img src="/2019/04/03/english-english入门基础/LeaderElectoin.png" alt="LeaderElectoin" title="Optional title"></p>
+</li>
+<li><p>通过流程分析我们可以得出：要使Leader获得多数Server的支持，则Server总数必须是奇数2n+1，且存活的Server的数目不得少于n+1</p>
+</li>
+<li><h4 id="Leader选举异常情况"><a href="#Leader选举异常情况" class="headerlink" title="Leader选举异常情况"></a>Leader选举异常情况</h4><ul>
+<li>1 选举过程中，Server的退出，只要保证n/2+1个Server存活就没有任何问题，如果少于n/2+1个Server 存活就没办法选出Leader</li>
+</ul>
+</li>
+</ul>
+
           
-            <div class="post-button text-center">
-              <a class="btn" href="/2019/04/12/nginx-nginx整理/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
         
       
     </div>
@@ -901,7 +1575,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.mocwe.com/2019/04/12/java-java线程同步/">
+    <link itemprop="mainEntityOfPage" href="http://mocwe.com/2019/02/02/java-ThreadLocal原理分析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rick Liu">
@@ -921,7 +1595,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2019/04/12/java-java线程同步/" class="post-title-link" itemprop="url">java线程同步</a>
+                <a href="/2019/02/02/java-ThreadLocal原理分析/" class="post-title-link" itemprop="url">ThreadLocal原理分析</a>
               
             
           </h1>
@@ -946,12 +1620,24 @@
                 
               
 
-              <time title="创建时间：2019-04-12 22:12:04 / 修改时间：22:16:21" itemprop="dateCreated datePublished" datetime="2019-04-12T22:12:04+08:00">2019-04-12</time>
+              <time title="创建时间：2019-02-02 23:30:03" itemprop="dateCreated datePublished" datetime="2019-02-02T23:30:03+08:00">2019-02-02</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-11 21:29:28" itemprop="dateModified" datetime="2019-05-11T21:29:28+08:00">2019-05-11</time>
               
             
           </span>
@@ -1004,17 +1690,55 @@
 
       
         
-          <p>当多个线程同时操作一个可共享的资源变量时，相互之间会产生冲突，导致数据不准确。</p>
-<p>因此对共享资源的访问需要采取一些措施，这些措施就被称为线程同步。</p>
-          <!--noindex-->
           
-            <div class="post-button text-center">
-              <a class="btn" href="/2019/04/12/java-java线程同步/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
+            <h2 id="什么是ThreadLocal"><a href="#什么是ThreadLocal" class="headerlink" title="什么是ThreadLocal"></a>什么是ThreadLocal</h2><ul>
+<li>ThreadLocal提供了线程的局部变量，每个线程都可以通过set,get来对这个局部变量进行操作且不会影响其他线程的局部变量。防止冲突，实现线程的数据隔离，以到达线程的安全</li>
+</ul>
+<h2 id="ThreadLocal的使用"><a href="#ThreadLocal的使用" class="headerlink" title="ThreadLocal的使用"></a>ThreadLocal的使用</h2>   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">public class ThreadLocalTest &#123;</span><br><span class="line"></span><br><span class="line">    //(1)打印函数</span><br><span class="line">    static void print(String str)&#123;</span><br><span class="line">        //1.1  打印当前线程本地内存中localVariable变量的值</span><br><span class="line">        System.out.println(str + &quot;:&quot; +localVariable.get());</span><br><span class="line">        //1.2 清除当前线程本地内存中localVariable变量</span><br><span class="line">        //localVariable.remove();</span><br><span class="line">    &#125;</span><br><span class="line">    //(2) 创建ThreadLocal变量</span><br><span class="line">    static ThreadLocal&lt;String&gt; localVariable = new ThreadLocal&lt;&gt;();</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line"></span><br><span class="line">        //(3) 创建线程one</span><br><span class="line">        Thread threadOne = new Thread(new  Runnable() &#123;</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                //3.1 设置线程one中本地变量localVariable的值</span><br><span class="line">                localVariable.set(&quot;threadOne local variable&quot;);</span><br><span class="line">                //3.2 调用打印函数</span><br><span class="line">                print(&quot;threadOne&quot;);</span><br><span class="line">                //3.3打印本地变量值</span><br><span class="line">                System.out.println(&quot;threadOne remove after&quot; + &quot;:&quot; +localVariable.get());</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        //(4) 创建线程two</span><br><span class="line">        Thread threadTwo = new Thread(new  Runnable() &#123;</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                //4.1 设置线程one中本地变量localVariable的值</span><br><span class="line">                localVariable.set(&quot;threadTwo local variable&quot;);</span><br><span class="line">                //4.2 调用打印函数</span><br><span class="line">                print(&quot;threadTwo&quot;);</span><br><span class="line">                //4.3打印本地变量值</span><br><span class="line">                System.out.println(&quot;threadTwo remove after&quot; + &quot;:&quot; +localVariable.get());</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        //(5)启动线程</span><br><span class="line">        threadOne.start();</span><br><span class="line">        threadTwo.start();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>运行结果：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">threadOne:threadOne local variable</span><br><span class="line">threadTwo:threadTwo local variable</span><br><span class="line">threadOne remove after:threadOne local variable</span><br><span class="line">threadTwo remove after:threadTwo local variable</span><br><span class="line"></span><br><span class="line">解开代码 1.2 的注释后，再次运行，运行结果为：</span><br><span class="line"></span><br><span class="line">threadOne:threadOne local variable</span><br><span class="line">threadOne remove after:null</span><br><span class="line">threadTwo:threadTwo local variable</span><br><span class="line">threadTwo remove after:null</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="ThreadLocal实现原理"><a href="#ThreadLocal实现原理" class="headerlink" title="ThreadLocal实现原理"></a>ThreadLocal实现原理</h2><p>   <img src="/2019/02/02/java-ThreadLocal原理分析/ThreadLocal.png" alt="ThreadLocal" title="Optional title"></p>
+<ul>
+<li>如上类图可知 Thread 类中有一个 threadLocals 和 inheritableThreadLocals 都是 ThreadLocalMap 类型的变量，而 ThreadLocalMap 是一个定制化的 Hashmap，默认每个线程中这个两个变量都为 null，只有当前线程第一次调用了 ThreadLocal 的 set 或者 get 方法时候才会进行创建</li>
+<li>其实每个线程的本地变量不是存放到 ThreadLocal 实例里面的，而是存放到调用线程的 threadLocals 变量里面。也就是说 ThreadLocal 类型的本地变量是存放到具体的线程内存空间的</li>
+<li>ThreadLocal 就是一个工具壳，它通过 set 方法把 value 值放入调用线程的 threadLocals 里面存放起来，当调用线程调用它的 get 方法时候再从当前线程的 threadLocals变 量里面拿出来使用</li>
+<li>如果调用线程一直不终止，那么这个本地变量会一直存放到调用线程的 threadLocals 变量里面，所以当不需要使用本地变量时候可以通过调用 ThreadLocal 变量的 remove 方法，从当前线程的 threadLocals 里面删除该本地变量。另外 Thread 里面的 threadLocals 为何设计为 map 结构呢？很明显是因为每个线程里面可以关联多个 ThreadLocal 变量</li>
+<li><p>下面简单分析下 ThreadLocal 的 set，get，remove 方法的实现逻辑：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">* void set(T value)</span><br><span class="line">    public void set(T value) &#123;</span><br><span class="line">        //(1)获取当前线程</span><br><span class="line">        Thread t = Thread.currentThread();</span><br><span class="line">        //(2)当前线程作为key，去查找对应的线程变量，找到则设置</span><br><span class="line">        ThreadLocalMap map = getMap(t);</span><br><span class="line">        if (map != null)</span><br><span class="line">            map.set(this, value);</span><br><span class="line">        else</span><br><span class="line">        //(3)第一次调用则创建当前线程对应的HashMap</span><br><span class="line">            createMap(t, value);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如上代码（1）首先获取调用线程，然后使用当前线程作为参数调用了 getMap(t) 方法，getMap(Thread t) 代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ThreadLocalMap getMap(Thread t) &#123;</span><br><span class="line">        return t.threadLocals;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>可知 getMap(t) 所做的就是获取线程自己的变量 threadLocals，threadlocal 变量是绑定到了线程的成员变量里面</p>
+</li>
+<li>如果 getMap(t) 返回不为空，则把 value 值设置进入到 threadLocals，也就是把当前变量值放入了当前线程的内存变量 threadLocals，threadLocals 是个 HashMap 结构，其中 key 就是当前 ThreadLocal 的实例对象引用，value 是通过 set 方法传递的值</li>
+<li><p>如果 getMap(t) 返回空那说明是第一次调用 set 方法，则创建当前线程的 threadLocals 变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">void createMap(Thread t, T firstValue) &#123;</span><br><span class="line">       t.threadLocals = new ThreadLocalMap(this, firstValue);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>T get()方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public T get() &#123;</span><br><span class="line">        //(4) 获取当前线程</span><br><span class="line">        Thread t = Thread.currentThread();</span><br><span class="line">        //(5)获取当前线程的threadLocals变量</span><br><span class="line">        ThreadLocalMap map = getMap(t);</span><br><span class="line">        //(6)如果threadLocals不为null，则返回对应本地变量值</span><br><span class="line">        if (map != null) &#123;</span><br><span class="line">            ThreadLocalMap.Entry e = map.getEntry(this);</span><br><span class="line">            if (e != null) &#123;</span><br><span class="line">                @SuppressWarnings(&quot;unchecked&quot;)</span><br><span class="line">                T result = (T)e.value;</span><br><span class="line">                return result;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        //(7)threadLocals为空则初始化当前线程的threadLocals成员变量</span><br><span class="line">                return setInitialValue();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>首先获取当前线程实例，如果当前线程的 threadLocals 变量不为 null 则直接返回当前线程绑定的本地变量。否者执行代码（7）进行初始化，setInitialValue() 的代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">private T setInitialValue() &#123;</span><br><span class="line">        //(8)初始化为null</span><br><span class="line">        T value = initialValue();</span><br><span class="line">        Thread t = Thread.currentThread();</span><br><span class="line">        ThreadLocalMap map = getMap(t);</span><br><span class="line">        //(9)如果当前线程的threadLocals变量不为空</span><br><span class="line">        if (map != null)</span><br><span class="line">            map.set(this, value);</span><br><span class="line">        else</span><br><span class="line">        //(10)如果当前线程的threadLocals变量为空</span><br><span class="line">            createMap(t, value);</span><br><span class="line">        return value;</span><br><span class="line">    &#125;</span><br><span class="line">    protected T initialValue() &#123;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如上代码如果当前线程的 threadLocals 变量不为空，则设置当前线程的本地变量值为 null，否者调用 createMap 创建当前线程的 createMap 变量</p>
+</li>
+<li><p>T remove()方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public void remove() &#123;</span><br><span class="line">         ThreadLocalMap m = getMap(Thread.currentThread());</span><br><span class="line">         if (m != null)</span><br><span class="line">             m.remove(this);</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果当前线程的 threadLocals 变量不为空，则删除当前线程中指定 ThreadLocal 实例的本地变量</p>
+</li>
+<li><h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><ul>
+<li>每个线程内部都有一个名字为 threadLocals 的成员变量，该变量类型为 HashMap，其中 key 为我们定义的 ThreadLocal 变量的 this 引用，value 则为我们 set 时候的值</li>
+<li>每个线程的本地变量是存到线程自己的内存变量 threadLocals 里面的，如果当前线程一直不消失那么这些本地变量会一直存到，所以可能会造成内存泄露</li>
+<li>所以使用完毕后要记得调用 ThreadLocal 的 remove 方法删除对应线程的 threadLocals 中的本地变量</li>
+</ul>
+</li>
+</ul>
+
           
-          <!--/noindex-->
         
       
     </div>
@@ -1069,7 +1793,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.mocwe.com/2019/04/12/java-Java日志工具类/">
+    <link itemprop="mainEntityOfPage" href="http://mocwe.com/2018/11/14/distributed-高并发详解/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rick Liu">
@@ -1089,7 +1813,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2019/04/12/java-Java日志工具类/" class="post-title-link" itemprop="url">Java日志工具类</a>
+                <a href="/2018/11/14/distributed-高并发详解/" class="post-title-link" itemprop="url">高并发详解</a>
               
             
           </h1>
@@ -1114,12 +1838,24 @@
                 
               
 
-              <time title="创建时间：2019-04-12 19:30:03 / 修改时间：21:48:50" itemprop="dateCreated datePublished" datetime="2019-04-12T19:30:03+08:00">2019-04-12</time>
+              <time title="创建时间：2018-11-14 12:42:21" itemprop="dateCreated datePublished" datetime="2018-11-14T12:42:21+08:00">2018-11-14</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-04 20:53:32" itemprop="dateModified" datetime="2019-05-04T20:53:32+08:00">2019-05-04</time>
               
             
           </span>
@@ -1136,7 +1872,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/distributed/" itemprop="url" rel="index"><span itemprop="name">distributed</span></a></span>
 
                 
                 
@@ -1172,20 +1908,469 @@
 
       
         
-          <h1 id="Java日志工具类"><a href="#Java日志工具类" class="headerlink" title="Java日志工具类"></a>Java日志工具类</h1><p>比较常用的日志工具类有Log4j、SLF4j、Commons-logging(简称jcl)、logback、log4j2(log4j升级版)、jdk logging。大致可分为两类：</p>
-<ul>
-<li>接口类，包括Commons-logging、SLF4j</li>
-<li>实现类，Log4j、log4j2、logback、jdk logging</li>
+          
+            <p>## </p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://mocwe.com/2018/11/14/network-理解OSI七层模型/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rick Liu">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar-user.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="每天进步一小点">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/11/14/network-理解OSI七层模型/" class="post-title-link" itemprop="url">理解OSI七层模型</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-11-14 12:42:21" itemprop="dateCreated datePublished" datetime="2018-11-14T12:42:21+08:00">2018-11-14</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-05 09:49:13" itemprop="dateModified" datetime="2019-05-05T09:49:13+08:00">2019-05-05</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/network/" itemprop="url" rel="index"><span itemprop="name">network</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><ul>
+<li>OSI模型，即开放式通信系统互联参考模型(Open System Interconnection,OSI/RM,Open Systems InterconnectionReference Model)，是国际标准化组织(ISO)提出的一个试图使各种计算机在世界范围内互连为网络的标准框架，简称OSI</li>
 </ul>
-          <!--noindex-->
+<h2 id="七层模型"><a href="#七层模型" class="headerlink" title="七层模型"></a>七层模型</h2><ul>
+<li>0SI／RM协议是由IS0(国际标准化组织)制定的，它有三个基本的功能：提供给开发者一个必须的、通用的概念以便开发完善、可以用来解释连接不同系统的框架<br><img src="/2018/11/14/network-理解OSI七层模型/networkMode.jpg" alt="OSI Mode" title="Optional title"></li>
+<li><h4 id="应用层（Application-Layer）"><a href="#应用层（Application-Layer）" class="headerlink" title="应用层（Application Layer）"></a>应用层（Application Layer）</h4><ul>
+<li>提供网络与用户应用软件之间的接口服务</li>
+</ul>
+</li>
+<li><h4 id="表示层-Presentation-Layer"><a href="#表示层-Presentation-Layer" class="headerlink" title="表示层 (Presentation Layer)"></a>表示层 (Presentation Layer)</h4><ul>
+<li>提供格式化的表示和转换数据服务，如加密和压缩</li>
+</ul>
+</li>
+<li><h4 id="会话层-Session-Layer"><a href="#会话层-Session-Layer" class="headerlink" title="会话层 (Session Layer)"></a>会话层 (Session Layer)</h4><ul>
+<li>提供包括访问验证和会话管理在内的建立和维护应用之间通信的机制</li>
+</ul>
+</li>
+<li><h4 id="传输层（Transimission-Layer）"><a href="#传输层（Transimission-Layer）" class="headerlink" title="传输层（Transimission Layer）"></a>传输层（Transimission Layer）</h4><ul>
+<li>提供建立、维护和取消传输连接功能，负责可靠地传输数据(PC)</li>
+</ul>
+</li>
+<li><h4 id="网络层（NetWork-Layer）"><a href="#网络层（NetWork-Layer）" class="headerlink" title="网络层（NetWork Layer）"></a>网络层（NetWork Layer）</h4><ul>
+<li>处理网络间路由，确保数据及时传送(路由器)</li>
+</ul>
+</li>
+<li><h4 id="数据链路层（Data-Link-Layer）"><a href="#数据链路层（Data-Link-Layer）" class="headerlink" title="数据链路层（Data Link Layer）"></a>数据链路层（Data Link Layer）</h4><ul>
+<li>负责无错传输数据，确认帧、发错重传等(交换机)</li>
+</ul>
+</li>
+<li><h4 id="物理层（Physics-Layer）"><a href="#物理层（Physics-Layer）" class="headerlink" title="物理层（Physics Layer）"></a>物理层（Physics Layer）</h4><ul>
+<li>提供机械、电气、功能和过程特性(网卡、网线、双绞线、同轴电缆、中继器)</li>
+</ul>
+</li>
+<li><p>七层中应用层、表示层和会话层由软件控制，传输层、网络层和数据链路层由操作系统控制，物理层有物理设备控制</p>
+</li>
+</ul>
+
           
-            <div class="post-button text-center">
-              <a class="btn" href="/2019/04/12/java-Java日志工具类/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://mocwe.com/2018/11/10/distributed-分布式Session一致性解决方案/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rick Liu">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar-user.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="每天进步一小点">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/11/10/distributed-分布式Session一致性解决方案/" class="post-title-link" itemprop="url">分布式Session一致性解决方案</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-11-10 19:12:04" itemprop="dateCreated datePublished" datetime="2018-11-10T19:12:04+08:00">2018-11-10</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-04 22:24:34" itemprop="dateModified" datetime="2019-05-04T22:24:34+08:00">2019-05-04</time>
+              
+            
+          </span>
+
           
-          <!--/noindex-->
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/distributed/" itemprop="url" rel="index"><span itemprop="name">distributed</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Session复制"><a href="#Session复制" class="headerlink" title="Session复制"></a>Session复制</h2><ul>
+<li>在支持Session复制的Web服务器上，通过修改Web服务器的配置，可以实现将Session同步到其它Web服务器上，达到每个Web服务器上都保存一致的Session<ul>
+<li><h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ul>
+<li>代码上不需要做支持和修改</li>
+</ul>
+</li>
+<li><h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ul>
+<li>需要依赖支持的Web服务器，一旦更换成不支持的Web服务器就不能使用了，在数据量很大的情况下不仅占用网络资源，而且会导致延迟</li>
+</ul>
+</li>
+<li><h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><ul>
+<li>只适用于Web服务器比较少且Session数据量少的情况</li>
+</ul>
+</li>
+<li><h3 id="可用方案"><a href="#可用方案" class="headerlink" title="可用方案"></a>可用方案</h3><ul>
+<li>开源方案tomcat-redis-session-manager，暂不支持Tomcat8</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="Session粘滞"><a href="#Session粘滞" class="headerlink" title="Session粘滞"></a>Session粘滞</h2><ul>
+<li>将用户的每次请求都通过某种方法（比如：nginx ip_hash等）强制分发到某一个Web服务器上，只要这个Web服务器上存储了对应Session数据，就可以实现会话跟踪<ul>
+<li><h3 id="优点-1"><a href="#优点-1" class="headerlink" title="优点"></a>优点</h3><ul>
+<li>使用简单，没有额外开销</li>
+</ul>
+</li>
+<li><h3 id="缺点-1"><a href="#缺点-1" class="headerlink" title="缺点"></a>缺点</h3><ul>
+<li>一旦某个Web服务器重启或宕机，相对应的Session数据将会丢失，而且需要依赖负载均衡机制</li>
+</ul>
+</li>
+<li><h3 id="使用场景-1"><a href="#使用场景-1" class="headerlink" title="使用场景"></a>使用场景</h3><ul>
+<li>对稳定性要求不是很高的业务情景</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="Session集中管理"><a href="#Session集中管理" class="headerlink" title="Session集中管理"></a>Session集中管理</h2><ul>
+<li>在单独的服务器或服务器集群上使用缓存技术，如Redis存储Session数据，集中管理所有的Session，所有的Web服务器都从这个存储介质中存取对应的Session，实现Session共享<ul>
+<li><h3 id="优点-2"><a href="#优点-2" class="headerlink" title="优点"></a>优点</h3><ul>
+<li>可靠性高，减少Web服务器的资源开销</li>
+</ul>
+</li>
+<li><h3 id="缺点-2"><a href="#缺点-2" class="headerlink" title="缺点"></a>缺点</h3><ul>
+<li>实现上有些复杂，配置较多</li>
+</ul>
+</li>
+<li><h3 id="使用场景-2"><a href="#使用场景-2" class="headerlink" title="使用场景"></a>使用场景</h3><ul>
+<li>Web服务器较多、要求高可用性的情况</li>
+</ul>
+</li>
+<li><h3 id="可用方案-1"><a href="#可用方案-1" class="headerlink" title="可用方案"></a>可用方案</h3><ul>
+<li>开源方案Spring Session，也可以自己实现，主要是重写HttpServletRequestWrapper中的getSession方法</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="基于Cookie管理"><a href="#基于Cookie管理" class="headerlink" title="基于Cookie管理"></a>基于Cookie管理</h2><ul>
+<li>这种方式每次发起请求的时候都需要将Session数据放到Cookie中传递给服务端<ul>
+<li><h3 id="优点-3"><a href="#优点-3" class="headerlink" title="优点"></a>优点</h3><ul>
+<li>不需要依赖额外外部存储，不需要额外配置</li>
+</ul>
+</li>
+<li><h3 id="缺点-3"><a href="#缺点-3" class="headerlink" title="缺点"></a>缺点</h3><ul>
+<li>不安全，易被盗取或篡改；Cookie数量和长度有限制，需要消耗更多网络带宽</li>
+</ul>
+</li>
+<li><h3 id="使用场景-3"><a href="#使用场景-3" class="headerlink" title="使用场景"></a>使用场景</h3><ul>
+<li>数据不重要、不敏感且数据量小的情况</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>经过分析对比以上4种方案，相对来说，Sessioin集中管理更加可靠，使用也是最多</li>
+</ul>
+
+          
         
       
     </div>
@@ -1228,6 +2413,10 @@
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
 
 
           </div>
@@ -1269,7 +2458,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-count">33</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1292,7 +2481,35 @@
                     
                       
                     
-                    <span class="site-state-item-count">3</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">17</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -1315,7 +2532,35 @@
                     
                       
                     
-                    <span class="site-state-item-count">3</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">17</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1385,23 +2630,23 @@
                   
                   
                     <li>
-                      <a href="/2019/04/12/maven-maven整理/" title="maven整理" target="_blank">maven整理</a>
+                      <a href="/2019/05/12/spring-Spring-IOC级联容器原理/" title="Spring IOC级联容器原理" target="_blank">Spring IOC级联容器原理</a>
                     </li>
                   
                     <li>
-                      <a href="/2019/04/12/nginx-nginx安装/" title="nginx安装" target="_blank">nginx安装</a>
+                      <a href="/2019/05/03/developTools-Mac版本破解starUML/" title="Mac版本破解starUML" target="_blank">Mac版本破解starUML</a>
                     </li>
                   
                     <li>
-                      <a href="/2019/04/12/nginx-nginx整理/" title="nginx整理" target="_blank">nginx整理</a>
+                      <a href="/2019/05/03/developTools-starUML入门使用/" title="starUML入门使用" target="_blank">starUML入门使用</a>
                     </li>
                   
                     <li>
-                      <a href="/2019/04/12/java-java线程同步/" title="java线程同步" target="_blank">java线程同步</a>
+                      <a href="/2019/04/03/zookeeper-Leader选举原理/" title="Leader选举原理" target="_blank">Leader选举原理</a>
                     </li>
                   
                     <li>
-                      <a href="/2019/04/12/java-Java日志工具类/" title="Java日志工具类" target="_blank">Java日志工具类</a>
+                      <a href="/2019/04/03/interview-面试问题总结/" title="面试问题总结" target="_blank">面试问题总结</a>
                     </li>
                   
                 </ul>
